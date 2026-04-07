@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ShoppingBag, Search, Menu, X } from "lucide-react";
+import { ShoppingBag, Search, Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/hooks/use-cart";
 import { useListCategories } from "@workspace/api-client-react";
@@ -53,6 +53,12 @@ export function Navbar() {
               </span>
             )}
             <span className="sr-only">Cart</span>
+          </Button>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/admin/login">
+              <User className="h-5 w-5" />
+              <span className="sr-only">Login Admin</span>
+            </Link>
           </Button>
         </div>
       </div>
