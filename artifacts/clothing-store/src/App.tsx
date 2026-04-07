@@ -9,6 +9,8 @@ import ProductDetail from "@/pages/product-detail";
 import Cart from "@/pages/cart";
 import About from "@/pages/about";
 import Category from "@/pages/category";
+import AdminLogin from "@/pages/admin-login";
+import AdminDashboard from "@/pages/admin-dashboard";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +23,8 @@ function Router() {
       <Route path="/cart" component={Cart} />
       <Route path="/about" component={About} />
       <Route path="/category/:slug" component={Category} />
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

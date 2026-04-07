@@ -206,4 +206,42 @@ router.get("/products/:id", async (req, res): Promise<void> => {
   );
 });
 
+router.post("/products", async (req, res): Promise<void> => {
+  // Simple auth check for the token we defined in auth.ts
+  const token = req.headers["x-admin-token"];
+  if (token !== "admin-session-token-hardcoded") {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+
+  // We use the insert schema from the DB package
+  const { insertProductSchema } = await import("@workspace/db");
+  const parsed = insertProductSchema.safeParse(req.body);
+
+  if (!parsed.success) {
+    res.status(400).json({ error: parsed.error.message });
+    return;
+  }
+
+  try {
+    const [newProduct] = await db.insert(productsTable).values(parsed.data).returning();
+
+    // Re-fetch to get the join with category name for the full response
+    const [productWithCategory] = await db
+      .select(buildProductSelect())
+      .from(productsTable)
+      .innerJoin(categoriesTable, eq(productsTable.categoryId, categoriesTable.id))
+      .where(eq(productsTable.id, newProduct.id));
+
+    res.status(201).json({
+      ...productWithCategory,
+      price: Number(productWithCategory.price),
+      originalPrice: productWithCategory.originalPrice ? Number(productWithCategory.originalPrice) : null,
+    });
+  } catch (error) {
+    console.error("Error creating product:", error);
+    res.status(500).json({ error: "Failed to create product" });
+  }
+});
+
 export default router;
