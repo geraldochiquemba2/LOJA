@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(staticPath));
 
   // Catch-all to serve the frontend for any other route (SPA support)
-  app.get("*", (req: Request, res: Response) => {
+  app.get("*path", (req: Request, res: Response) => {
     // If it's an API route that wasn't matched above, return 404
     if (req.path.startsWith("/api")) {
       return res.status(404).json({ message: "API endpoint not found" });
