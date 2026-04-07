@@ -8,3 +8,71 @@
 export interface HealthStatus {
   status: string;
 }
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  imageUrl: string;
+  productCount: number;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  originalPrice?: number | null;
+  imageUrl: string;
+  images: string[];
+  categoryId: number;
+  categoryName: string;
+  sizes: string[];
+  colors: string[];
+  inStock: boolean;
+  featured: boolean;
+  createdAt: string;
+}
+
+export interface ProductListResponse {
+  products: Product[];
+  total: number;
+  hasMore: boolean;
+}
+
+export type StoreSummaryPriceRange = {
+  min: number;
+  max: number;
+};
+
+export interface StoreSummary {
+  totalProducts: number;
+  totalCategories: number;
+  priceRange: StoreSummaryPriceRange;
+  featuredCount: number;
+}
+
+export type ListProductsParams = {
+  categoryId?: number;
+  search?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sort?: ListProductsSort;
+  limit?: number;
+  offset?: number;
+};
+
+export type ListProductsSort =
+  (typeof ListProductsSort)[keyof typeof ListProductsSort];
+
+export const ListProductsSort = {
+  price_asc: "price_asc",
+  price_desc: "price_desc",
+  newest: "newest",
+  name_asc: "name_asc",
+} as const;
+
+export type GetNewArrivalsParams = {
+  limit?: number;
+};

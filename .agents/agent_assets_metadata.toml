@@ -1,0 +1,20 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "i5DPhYRcZ24UKoi9bnMS8"
+uri = "file://artifacts/clothing-store/public/images/hero.png"
+type = "image"
+title = "Fashion hero banner"
+
+[[generated]]
+id = "6yFBJZ1nSyg34POvnfrxW"
+uri = "file://artifacts/clothing-store/public/images/about-hero.png"
+type = "image"
+title = "About page studio shot"
+
+[[generated]]
+id = "csOhNviVhFLGGCPqwWVL9"
+uri = "file://artifacts/clothing-store/public/images/design-details.png"
+type = "image"
+title = "Design details closeup"

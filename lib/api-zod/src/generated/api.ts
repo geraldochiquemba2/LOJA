@@ -14,3 +14,158 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+/**
+ * @summary List all categories
+ */
+export const ListCategoriesResponseItem = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  slug: zod.string(),
+  description: zod.string(),
+  imageUrl: zod.string(),
+  productCount: zod.number(),
+});
+export const ListCategoriesResponse = zod.array(ListCategoriesResponseItem);
+
+/**
+ * @summary Get a category by slug
+ */
+export const GetCategoryBySlugParams = zod.object({
+  slug: zod.coerce.string(),
+});
+
+export const GetCategoryBySlugResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  slug: zod.string(),
+  description: zod.string(),
+  imageUrl: zod.string(),
+  productCount: zod.number(),
+});
+
+/**
+ * @summary List products with optional filters
+ */
+export const listProductsQueryLimitDefault = 20;
+export const listProductsQueryOffsetDefault = 0;
+
+export const ListProductsQueryParams = zod.object({
+  categoryId: zod.coerce.number().optional(),
+  search: zod.coerce.string().optional(),
+  minPrice: zod.coerce.number().optional(),
+  maxPrice: zod.coerce.number().optional(),
+  sort: zod.enum(["price_asc", "price_desc", "newest", "name_asc"]).optional(),
+  limit: zod.coerce.number().default(listProductsQueryLimitDefault),
+  offset: zod.coerce.number().default(listProductsQueryOffsetDefault),
+});
+
+export const ListProductsResponse = zod.object({
+  products: zod.array(
+    zod.object({
+      id: zod.number(),
+      name: zod.string(),
+      description: zod.string(),
+      price: zod.number(),
+      originalPrice: zod.number().nullish(),
+      imageUrl: zod.string(),
+      images: zod.array(zod.string()),
+      categoryId: zod.number(),
+      categoryName: zod.string(),
+      sizes: zod.array(zod.string()),
+      colors: zod.array(zod.string()),
+      inStock: zod.boolean(),
+      featured: zod.boolean(),
+      createdAt: zod.coerce.date(),
+    }),
+  ),
+  total: zod.number(),
+  hasMore: zod.boolean(),
+});
+
+/**
+ * @summary Get featured/highlighted products
+ */
+export const GetFeaturedProductsResponseItem = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  description: zod.string(),
+  price: zod.number(),
+  originalPrice: zod.number().nullish(),
+  imageUrl: zod.string(),
+  images: zod.array(zod.string()),
+  categoryId: zod.number(),
+  categoryName: zod.string(),
+  sizes: zod.array(zod.string()),
+  colors: zod.array(zod.string()),
+  inStock: zod.boolean(),
+  featured: zod.boolean(),
+  createdAt: zod.coerce.date(),
+});
+export const GetFeaturedProductsResponse = zod.array(
+  GetFeaturedProductsResponseItem,
+);
+
+/**
+ * @summary Get newest products
+ */
+export const getNewArrivalsQueryLimitDefault = 8;
+
+export const GetNewArrivalsQueryParams = zod.object({
+  limit: zod.coerce.number().default(getNewArrivalsQueryLimitDefault),
+});
+
+export const GetNewArrivalsResponseItem = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  description: zod.string(),
+  price: zod.number(),
+  originalPrice: zod.number().nullish(),
+  imageUrl: zod.string(),
+  images: zod.array(zod.string()),
+  categoryId: zod.number(),
+  categoryName: zod.string(),
+  sizes: zod.array(zod.string()),
+  colors: zod.array(zod.string()),
+  inStock: zod.boolean(),
+  featured: zod.boolean(),
+  createdAt: zod.coerce.date(),
+});
+export const GetNewArrivalsResponse = zod.array(GetNewArrivalsResponseItem);
+
+/**
+ * @summary Get a single product by ID
+ */
+export const GetProductParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetProductResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  description: zod.string(),
+  price: zod.number(),
+  originalPrice: zod.number().nullish(),
+  imageUrl: zod.string(),
+  images: zod.array(zod.string()),
+  categoryId: zod.number(),
+  categoryName: zod.string(),
+  sizes: zod.array(zod.string()),
+  colors: zod.array(zod.string()),
+  inStock: zod.boolean(),
+  featured: zod.boolean(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Get store summary stats
+ */
+export const GetProductsSummaryResponse = zod.object({
+  totalProducts: zod.number(),
+  totalCategories: zod.number(),
+  priceRange: zod.object({
+    min: zod.number(),
+    max: zod.number(),
+  }),
+  featuredCount: zod.number(),
+});
